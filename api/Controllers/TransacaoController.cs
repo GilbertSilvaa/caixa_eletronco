@@ -12,13 +12,11 @@ namespace api.Controllers
     [ApiController]
     public class TransacaoController : ControllerBase
     {
-        private readonly ITransacaoRepository _transacaoDAO;
-        private readonly ITransacaoRepository _transacaoDecorator;
+        private readonly IClienteRepository _clienteDAO;
 
         public TransacaoController()
         {
-            _transacaoDAO = new TransacaoDAO();
-            _transacaoDecorator = new VerificarSaldoDecorator(_transacaoDAO);
+            _clienteDAO = new ClienteDAO();
         }
 
         [Route("deposito")]
@@ -29,10 +27,10 @@ namespace api.Controllers
             {
                 IdCliente = idCliente,
                 Valor = valor,
-                Tipo = TipoTransacao.deposito
             };
 
-            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
+            var _transacaoDAO = new TransacaoDAO(TipoTransacao.deposito);
+            var transacaoResponse = _transacaoDAO.ExecutarTransacao(dados);
 
             if (transacaoResponse == null) return BadRequest(); 
 
@@ -47,9 +45,10 @@ namespace api.Controllers
             {
                 IdCliente = idCliente,
                 Valor = valor,
-                Tipo = TipoTransacao.saque
             };
 
+            var _transacaoDAO = new TransacaoDAO(TipoTransacao.saque);
+            var _transacaoDecorator = new VerificarSaldoDecorator(_transacaoDAO, _clienteDAO);
             var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
 
             if (transacaoResponse == null) return BadRequest();
@@ -66,14 +65,43 @@ namespace api.Controllers
                 IdCliente = idCliente,
                 IdClienteTransf = idClienteTransf,
                 Valor = valor,
-                Tipo = TipoTransacao.tranferencia
             };
 
+            var _transacaoDAO = new TransacaoDAO(TipoTransacao.tranferencia);
+            var _transacaoDecorator = new VerificarSaldoDecorator(_transacaoDAO, _clienteDAO);
             var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
 
             if (transacaoResponse == null) return BadRequest();
 
             return Ok(transacaoResponse);
+        }
+
+        [Route("buscar")]
+        [HttpGet]
+        public ActionResult<List<TransacaoRegistro>> BuscarTransacoes([FromQuery] int idCliente)
+        {
+            var _transacaoTransf = new TransacaoDAO(TipoTransacao.tranferencia);
+            var _transacaoSaque = new TransacaoDAO(TipoTransacao.saque);
+            var _transacaoDeposito = new TransacaoDAO(TipoTransacao.deposito);
+
+            List<List<TransacaoRegistro>?> responses = new()
+            { 
+                _transacaoTransf.BuscarTransacoesCliente(idCliente),
+                _transacaoSaque.BuscarTransacoesCliente(idCliente),
+                _transacaoDeposito.BuscarTransacoesCliente(idCliente)
+            };
+            
+
+            List<TransacaoRegistro> registros = new();
+            responses.ForEach(response =>
+            {
+                if (response != null)
+                    registros.AddRange(response);
+            });
+
+            if (registros == null) return BadRequest();
+
+            return Ok(registros);
         }
     }
 }

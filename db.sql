@@ -88,3 +88,31 @@ begin
     select * from Transacao where cliente_id = cliente_id order by dt_transacao desc limit 1;
 end//
 DELIMITER ;
+
+
+DELIMITER //
+create procedure SP_BUSCAR_TRANSFERENCIAS (in
+	cliente_id int
+) 
+begin
+	select
+	ts.id as id, 
+	t.cliente_rec as cliente_id, 
+	ts.tipo, 
+	ts.valor, 
+	ts.dt_transacao 
+	from Transferencias t 
+	inner join Transacao ts on ts.id = t.transacao_id 
+	where cliente_env= cliente_id;
+end//
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
