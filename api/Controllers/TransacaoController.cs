@@ -32,7 +32,7 @@ namespace api.Controllers
                 Tipo = TipoTransacao.deposito
             };
 
-            var transacaoResponse = _transacaoDecorator.TransacaoComum(dados);
+            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
 
             if (transacaoResponse == null) return BadRequest(); 
 
@@ -50,7 +50,7 @@ namespace api.Controllers
                 Tipo = TipoTransacao.saque
             };
 
-            var transacaoResponse = _transacaoDecorator.TransacaoComum(dados);
+            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
 
             if (transacaoResponse == null) return BadRequest();
 
@@ -59,9 +59,17 @@ namespace api.Controllers
 
         [Route("transferencia")]
         [HttpPost]
-        public ActionResult<Transacao> Transferir([FromForm] TransferenciaDados _params)
+        public ActionResult<Transacao> Transferir([FromForm] int idCliente, [FromForm] int idClienteTransf, [FromForm] double valor)
         {
-            var transacaoResponse = _transacaoDecorator.Transferencia(_params);
+            TransacaoDados dados = new()
+            {
+                IdCliente = idCliente,
+                IdClienteTransf = idClienteTransf,
+                Valor = valor,
+                Tipo = TipoTransacao.tranferencia
+            };
+
+            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
 
             if (transacaoResponse == null) return BadRequest();
 

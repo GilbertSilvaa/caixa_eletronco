@@ -13,20 +13,12 @@ namespace api.Decorators
             _transacaoRepository = transacaoRepository;
         }
 
-        public Transacao? TransacaoComum(TransacaoDados _params)
+        public Transacao? ExecutarTransacao(TransacaoDados _params)
         {
-            if (_params.Tipo == TipoTransacao.saque && !VerificaSaldo(_params.IdCliente, _params.Valor))
+            if (_params.Tipo != TipoTransacao.deposito && !VerificaSaldo(_params.IdCliente, _params.Valor))
                 return null;
 
-            return _transacaoRepository.TransacaoComum(_params);
-        }
-
-        public Transacao? Transferencia(TransferenciaDados _params)
-        {
-            if (VerificaSaldo(_params.IdCliente, _params.Valor))
-                return _transacaoRepository.Transferencia(_params);
-
-            return null;
+            return _transacaoRepository.ExecutarTransacao(_params);
         }
 
         public bool VerificaSaldo(int idCliente, double valor)
