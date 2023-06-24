@@ -11,49 +11,26 @@ namespace api.Factories
        {
             return tipo switch
             {
-                TipoTransacao.saque => new Saque(conn),
-                TipoTransacao.deposito => new Deposito(conn),
+                TipoTransacao.saque => new TransacaoPadrao(conn),
+                TipoTransacao.deposito => new TransacaoPadrao(conn),
                 TipoTransacao.tranferencia => new Transferencia(conn),
                 _ => throw new ArgumentException("Tipo de transação inválido"),
             };
         }
     }
 
-    public class Saque : ITransacaoRepository
+    public class TransacaoPadrao : ITransacaoRepository
     {
         private readonly MySqlConnection _connection;
 
-        public Saque(MySqlConnection conn)
+        public TransacaoPadrao(MySqlConnection conn)
         {
             _connection = conn;
         }
 
         public Transacao? ExecutarTransacao(TransacaoDados _params)
         {
-            string query = $"call SP_TRANSACAO_COMUM({_params.IdCliente}, {_params.Valor}, 1)";
-            SqlHelper sql = new(_connection);
-
-            var rm_transacoes = sql.Query(query);
-            var transacoes = Transacao.DataTableConvert(rm_transacoes);
-
-            if (transacoes.Count == 0) return null;
-
-            return transacoes[0];
-        }
-    }
-
-    public class Deposito : ITransacaoRepository
-    {
-        private readonly MySqlConnection _connection;
-
-        public Deposito(MySqlConnection conn)
-        {
-            _connection = conn;
-        }
-
-        public Transacao? ExecutarTransacao(TransacaoDados _params)
-        {
-            string query = $"call SP_TRANSACAO_COMUM({_params.IdCliente}, {_params.Valor}, 2)";
+            string query = $"call SP_TRANSACAO_COMUM({_params.IdCliente}, {_params.Valor}, {(int)_params.Tipo})";
             SqlHelper sql = new(_connection);
 
             var rm_transacoes = sql.Query(query);
