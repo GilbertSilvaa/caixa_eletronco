@@ -1,10 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile/models/transaction.dart';
+import 'package:mobile/http/dio_client.dart';
 import 'package:mobile/screens/home/operations.dart';
 import 'package:mobile/screens/home/transactions.dart';
-import '../../http/dio_client.dart';
 import '../../models/cliente.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,35 +16,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Dio _dio;
-  late List<Transaction> _transactions;
   var _sectionSelected = 0;
 
   void _changeSection(int index) {
     setState(() => _sectionSelected = index);
   }
 
-  void _getTransactions() async {
+  Future<Cliente> _getBalance() async {
     try {
-      var res =
-          await _dio.get('/Transacao/buscar?idCliente=${widget.cliente.id}');
+      var dio = await DioClient.getInstance();
+      var res = await dio
+          .get('/Cliente/buscarPorConta?conta=${widget.cliente.conta}');
 
       if (res.statusCode == 200) {
-        _transactions =
-            res.data.map<Transaction>((tr) => Transaction.fromMap(tr)).toList();
+        return Cliente.fromMap(res.data);
       }
     } on DioException catch (_) {
       debugPrint('erro na requisicao');
     }
-  }
 
-  @override
-  void initState() {
-    Future(() async {
-      _dio = await DioClient.getInstance();
-      _getTransactions();
-    });
-    super.initState();
+    return widget.cliente;
   }
 
   @override
@@ -64,13 +54,21 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 24, color: Colors.white70),
             ),
             const SizedBox(height: 8),
-            Text(
-              moneyFormat.format(widget.cliente.saldo),
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
+            FutureBuilder(
+              future: _getBalance(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                return Text(
+                  moneyFormat.format(snapshot.data!.saldo),
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
+                );
+              },
             ),
             const SizedBox(height: 32),
             Expanded(
@@ -83,9 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 child: _sectionSelected == 0
-                    ? const Operations()
+                    ? Operations(cliente: widget.cliente)
                     : Transactions(
-                        transactions: _transactions,
                         cliente: widget.cliente,
                       ),
               ),

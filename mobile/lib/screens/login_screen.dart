@@ -22,11 +22,6 @@ class _LoginScreenState extends State<LoginScreen> {
   String? _passwordError;
 
   bool validationForm() {
-    setState(() {
-      _accountError = null;
-      _passwordError = null;
-    });
-
     if (_accountController.text.isEmpty) {
       setState(() => _accountError = 'campo obrigatório');
       return false;

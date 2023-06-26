@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/enums/operations.dart';
+import 'package:mobile/models/cliente.dart';
+import 'package:mobile/screens/operationForm/operation_screen.dart';
 import 'package:mobile/widgets/card_operation.dart';
 
 class Operations extends StatefulWidget {
-  const Operations({super.key});
+  const Operations({super.key, required this.cliente});
+
+  final Cliente cliente;
 
   @override
   State<Operations> createState() => _OperationsState();
@@ -11,17 +15,15 @@ class Operations extends StatefulWidget {
 
 class _OperationsState extends State<Operations> {
   void _openOperation(EOperations operation) {
-    switch (operation) {
-      case EOperations.saque:
-        debugPrint('saque in click');
-        break;
-      case EOperations.deposito:
-        debugPrint('deposito in click');
-        break;
-      case EOperations.transferencia:
-        debugPrint('transferencia in click');
-        break;
-    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OperationScreen(
+          operation: operation,
+          cliente: widget.cliente,
+        ),
+      ),
+    );
   }
 
   @override

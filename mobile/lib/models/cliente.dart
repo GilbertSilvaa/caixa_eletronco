@@ -5,13 +5,11 @@ class Cliente {
   final int id;
   final String nome;
   final int conta;
-  final String senha;
   final num saldo;
   Cliente({
     required this.id,
     required this.nome,
     required this.conta,
-    required this.senha,
     required this.saldo,
   });
 
@@ -26,7 +24,6 @@ class Cliente {
       id: id ?? this.id,
       nome: nome ?? this.nome,
       conta: conta ?? this.conta,
-      senha: senha ?? this.senha,
       saldo: saldo ?? this.saldo,
     );
   }
@@ -36,7 +33,6 @@ class Cliente {
       'id': id,
       'nome': nome,
       'conta': conta,
-      'senha': senha,
       'saldo': saldo,
     };
   }
@@ -46,7 +42,6 @@ class Cliente {
       id: map['id'] as int,
       nome: map['nome'] as String,
       conta: map['conta'] as int,
-      senha: map['senha'] as String,
       saldo: map['saldo'] as num,
     );
   }
@@ -58,7 +53,7 @@ class Cliente {
 
   @override
   String toString() {
-    return 'Cliente(id: $id, nome: $nome, conta: $conta, senha: $senha, saldo: $saldo)';
+    return 'Cliente(id: $id, nome: $nome, conta: $conta, saldo: $saldo)';
   }
 
   @override
@@ -68,16 +63,11 @@ class Cliente {
     return other.id == id &&
         other.nome == nome &&
         other.conta == conta &&
-        other.senha == senha &&
         other.saldo == saldo;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        nome.hashCode ^
-        conta.hashCode ^
-        senha.hashCode ^
-        saldo.hashCode;
+    return id.hashCode ^ nome.hashCode ^ conta.hashCode ^ saldo.hashCode;
   }
 }
