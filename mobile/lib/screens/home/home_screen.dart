@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile/models/transaction.dart';
 import 'package:mobile/screens/home/operations.dart';
 import 'package:mobile/screens/home/transactions.dart';
@@ -26,7 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _getTransactions() async {
     try {
-      var res = await _dio.get('/Transacao/buscar?idCliente=8');
+      var res =
+          await _dio.get('/Transacao/buscar?idCliente=${widget.cliente.id}');
 
       if (res.statusCode == 200) {
         _transactions =
@@ -48,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var moneyFormat = NumberFormat.currency(locale: 'pt_BR', symbol: 'R\$');
+
     return Scaffold(
       backgroundColor: Colors.red,
       body: Center(
@@ -61,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'R\$ ${widget.cliente.saldo.toString()}',
+              moneyFormat.format(widget.cliente.saldo),
               style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w700,
@@ -80,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 child: _sectionSelected == 0
                     ? const Operations()
-                    : Transactions(transactions: _transactions),
+                    : Transactions(
+                        transactions: _transactions,
+                        cliente: widget.cliente,
+                      ),
               ),
             ),
           ],

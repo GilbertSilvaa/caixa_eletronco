@@ -63,7 +63,7 @@ class CardTransaction extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  DateFormat('dd/MM/yyyy hh:mm').format(dateTransaction),
+                  DateFormat('dd/MM/yyyy HH:mm').format(dateTransaction),
                   style: const TextStyle(
                     fontSize: 14,
                     color: Colors.black54,
