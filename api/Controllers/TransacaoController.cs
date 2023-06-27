@@ -36,7 +36,7 @@ namespace api.Controllers
         public ActionResult<Transacao> Sacar([FromBody] TransacaoDados transacao)
         {
             var _transacaoDAO = new TransacaoDAO(TipoTransacao.saque);
-            var _transacaoDecorator = new VerificarSaldoDecorator(_transacaoDAO, _clienteDAO);
+            var _transacaoDecorator = new ValidateTransacaoDecorator(_transacaoDAO, _clienteDAO);
             var transacaoResponse = _transacaoDecorator.ExecutarTransacao(transacao);
 
             if (transacaoResponse == null) return BadRequest();
@@ -49,7 +49,7 @@ namespace api.Controllers
         public ActionResult<Transacao> Transferir([FromBody] TransacaoDados transacao)
         {
             var _transacaoDAO = new TransacaoDAO(TipoTransacao.tranferencia);
-            var _transacaoDecorator = new VerificarSaldoDecorator(_transacaoDAO, _clienteDAO);
+            var _transacaoDecorator = new ValidateTransacaoDecorator(_transacaoDAO, _clienteDAO);
             var transacaoResponse = _transacaoDecorator.ExecutarTransacao(transacao);
 
             if (transacaoResponse == null) return BadRequest();
@@ -71,20 +71,12 @@ namespace api.Controllers
                 _transacaoSaque.BuscarTransacoesCliente(idCliente),
                 _transacaoDeposito.BuscarTransacoesCliente(idCliente)
             };
-            
 
-            List<TransacaoRegistro> registros = new();
-            responses.ForEach(response =>
-            {
-                if (response != null)
-                    registros.AddRange(response);
-            });
+            var registros = ValidateTransacaoDecorator.OrderTransacoesPorData(responses!);
 
             if (registros == null) return BadRequest();
 
-            var registrosOrdem = registros.OrderBy(x => x.DtTransacao).Reverse();
-
-            return Ok(registrosOrdem);
+            return Ok(registros);
         }
     }
 }

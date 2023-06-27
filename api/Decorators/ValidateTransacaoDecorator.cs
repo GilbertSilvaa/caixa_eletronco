@@ -5,12 +5,12 @@ using api.Repositories;
 
 namespace api.Decorators
 {
-    public class VerificarSaldoDecorator : ITransacaoRepository
+    public class ValidateTransacaoDecorator : ITransacaoRepository
     {
         private readonly ITransacaoRepository _transacaoRepository;
         private readonly IClienteRepository _clienteRepository;
 
-        public VerificarSaldoDecorator(ITransacaoRepository transacaoRepository, IClienteRepository clienteRepository)
+        public ValidateTransacaoDecorator(ITransacaoRepository transacaoRepository, IClienteRepository clienteRepository)
         {
             _transacaoRepository = transacaoRepository;
             _clienteRepository = clienteRepository;
@@ -36,6 +36,20 @@ namespace api.Decorators
             if (saldoCliente >= valor) return true;
 
             return false;
+        }
+
+        public static IEnumerable<TransacaoRegistro>? OrderTransacoesPorData(List<List<TransacaoRegistro>>? transacoes)
+        {
+            List<TransacaoRegistro> registros = new();
+            transacoes?.ForEach(response =>
+            {
+                if (response != null)
+                    registros.AddRange(response);
+            });
+
+            if (registros == null) return null;
+
+            return registros.OrderBy(x => x.DtTransacao).Reverse();
         }
     }
 }
