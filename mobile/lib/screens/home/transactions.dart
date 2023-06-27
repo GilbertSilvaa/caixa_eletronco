@@ -105,7 +105,7 @@ class _TransactionsState extends State<Transactions> {
                             .toList(),
                       );
                     } else {
-                      return const Text('Nenhuma transaçãp registrada');
+                      return const Text('Nenhuma transação registrada');
                     }
                   } else {
                     return Text('State: ${snapshot.connectionState}');

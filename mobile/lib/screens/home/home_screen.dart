@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:mobile/http/dio_client.dart';
 import 'package:mobile/screens/home/operations.dart';
 import 'package:mobile/screens/home/transactions.dart';
+import 'package:mobile/screens/login_screen.dart';
 import '../../models/cliente.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,6 +20,17 @@ class _HomeScreenState extends State<HomeScreen> {
   var _sectionSelected = 0;
 
   void _changeSection(int index) {
+    if (index == 2) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+        ModalRoute.withName('/'),
+      );
+      return;
+    }
+
     setState(() => _sectionSelected = index);
   }
 
@@ -36,6 +48,16 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return widget.cliente;
+  }
+
+  Widget? getSection(int index) {
+    switch (index) {
+      case 0:
+        return Operations(cliente: widget.cliente);
+      case 1:
+        return Transactions(cliente: widget.cliente);
+    }
+    return null;
   }
 
   @override
@@ -80,11 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     topLeft: Radius.circular(24),
                   ),
                 ),
-                child: _sectionSelected == 0
-                    ? Operations(cliente: widget.cliente)
-                    : Transactions(
-                        cliente: widget.cliente,
-                      ),
+                child: getSection(_sectionSelected),
               ),
             ),
           ],
@@ -112,6 +130,13 @@ class _HomeScreenState extends State<HomeScreen> {
               label: 'Transações',
               icon: Icon(
                 Icons.list_alt,
+                size: 30,
+              ),
+            ),
+            BottomNavigationBarItem(
+              label: 'Sair',
+              icon: Icon(
+                Icons.logout,
                 size: 30,
               ),
             ),

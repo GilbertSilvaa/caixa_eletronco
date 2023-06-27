@@ -5,6 +5,7 @@ import 'package:mobile/models/cliente.dart';
 import 'package:mobile/screens/home/home_screen.dart';
 import 'package:mobile/widgets/button.dart';
 import 'package:mobile/widgets/input.dart';
+import 'package:mobile/widgets/success.dart';
 
 class Withdrawal extends StatefulWidget {
   const Withdrawal({super.key, required this.cliente});
@@ -22,7 +23,6 @@ class _WithdrawalState extends State<Withdrawal> {
   String? _valueError;
 
   bool _validateForm() {
-    setState(() => _valueError = null);
     if (_valueController.text.isEmpty) {
       setState(() => _valueError = 'campo obrigatório');
       return false;
@@ -44,12 +44,11 @@ class _WithdrawalState extends State<Withdrawal> {
       if (response.statusCode == 200) {
         if (context.mounted) {
           if (context.mounted) {
-            Navigator.pushAndRemoveUntil(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeScreen(cliente: widget.cliente),
+                builder: (context) => Success(cliente: widget.cliente),
               ),
-              ModalRoute.withName('/'),
             );
           }
         }
@@ -80,6 +79,7 @@ class _WithdrawalState extends State<Withdrawal> {
             keyBoard: TextInputType.number,
             controller: _valueController,
             errorLabel: _valueError,
+            handleOnChange: (v) => setState(() => _valueError = null),
           ),
           const SizedBox(height: 28),
           Expanded(

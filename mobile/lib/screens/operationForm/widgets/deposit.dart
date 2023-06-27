@@ -5,6 +5,7 @@ import 'package:mobile/models/cliente.dart';
 import 'package:mobile/screens/home/home_screen.dart';
 import 'package:mobile/widgets/button.dart';
 import 'package:mobile/widgets/input.dart';
+import 'package:mobile/widgets/success.dart';
 
 class Deposit extends StatefulWidget {
   const Deposit({
@@ -25,7 +26,6 @@ class _DepositState extends State<Deposit> {
   String? _valueError;
 
   bool _validateForm() {
-    setState(() => _valueError = null);
     if (_valueController.text.isEmpty) {
       setState(() => _valueError = 'campo obrigatório');
       return false;
@@ -46,12 +46,11 @@ class _DepositState extends State<Deposit> {
 
       if (response.statusCode == 200) {
         if (context.mounted) {
-          Navigator.pushAndRemoveUntil(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => HomeScreen(cliente: widget.cliente),
+              builder: (context) => Success(cliente: widget.cliente),
             ),
-            ModalRoute.withName('/'),
           );
         }
       }
@@ -81,6 +80,7 @@ class _DepositState extends State<Deposit> {
             keyBoard: TextInputType.number,
             controller: _valueController,
             errorLabel: _valueError,
+            handleOnChange: (v) => setState(() => _valueError = null),
           ),
           const SizedBox(height: 28),
           Expanded(

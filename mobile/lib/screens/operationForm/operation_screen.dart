@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile/enums/operations.dart';
 import 'package:mobile/models/cliente.dart';
 import 'package:mobile/screens/operationForm/widgets/deposit.dart';
+import 'package:mobile/screens/operationForm/widgets/transfer.dart';
 import 'package:mobile/screens/operationForm/widgets/withdrawal.dart';
 
 class OperationScreen extends StatefulWidget {
@@ -37,7 +38,7 @@ class _OperationScreenState extends State<OperationScreen> {
       case EOperations.deposito:
         return Deposit(cliente: widget.cliente);
       default:
-        return Deposit(cliente: widget.cliente);
+        return Transfer(cliente: widget.cliente);
     }
   }
 
