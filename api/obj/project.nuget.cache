@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "d8BiImHFYzscaEMv90jGyM7l+/d8cAiNjRxLih93mJ5GdnEEylfBE+agCPdPR581KYPoioZ37onFUk3uYpnZYA==",
+  "dgSpecHash": "inv0CpFG8vlp06pa4hly1sSrYZ3KyBofI965Bl18/C4YSQJu/IvNLqFHKC+8Cf02JqHSC/PVHuaeGHSBqfo2HQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\gilbe\\Área de Trabalho\\Meus_Projetos\\Faculdade\\caixa-eletronico\\api\\api.csproj",
+  "projectFilePath": "C:\\Users\\gilbe\\Documentos\\caixa-eletronico\\api\\api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\gilbe\\.nuget\\packages\\google.protobuf\\3.21.9\\google.protobuf.3.21.9.nupkg.sha512",
     "C:\\Users\\gilbe\\.nuget\\packages\\k4os.compression.lz4\\1.3.5\\k4os.compression.lz4.1.3.5.nupkg.sha512",

@@ -7,8 +7,8 @@ namespace api.Factories
 {
     public static class TransacaoFactory
     {
-       public static ITransacaoRepository CriarTransacao(TipoTransacao tipo, MySqlConnection conn, IClienteRepository _cli)
-       {
+        public static ITransacaoRepository CriarTransacao(TipoTransacao tipo, MySqlConnection conn, IClienteRepository _cli)
+        {
             return tipo switch
             {
                 TipoTransacao.tranferencia => new Transferencia(conn, _cli),
@@ -30,7 +30,8 @@ namespace api.Factories
 
         public Transacao? ExecutarTransacao(TransacaoDados _params)
         {
-            string query = $"call SP_TRANSACAO_COMUM({_params.IdCliente}, {_params.Valor}, {(int)_tipoTransacao})";
+            var valorFormat = _params.Valor.ToString().Replace(",", ".");
+            string query = $"call SP_TRANSACAO_COMUM({_params.IdCliente}, {valorFormat}, {(int)_tipoTransacao})";
             SqlHelper sql = new(_connection);
 
             var rm_transacoes = sql.Query(query);
@@ -53,13 +54,14 @@ namespace api.Factories
 
             List<TransacaoRegistro> registros = 
             (from transacao in transacoes 
-            select new TransacaoRegistro() { 
-                Id = transacao.Id,
-                IdCliente = transacao.IdCliente,
-                DtTransacao = transacao.DtTransacao,
-                Tipo = transacao.Tipo,
-                Valor = transacao.Valor
-            }).ToList();
+                select new TransacaoRegistro() { 
+                    Id = transacao.Id,
+                    IdCliente = transacao.IdCliente,
+                    DtTransacao = transacao.DtTransacao,
+                    Tipo = transacao.Tipo,
+                    Valor = transacao.Valor
+                }
+            ).ToList();
 
             return registros;
         }
@@ -78,7 +80,8 @@ namespace api.Factories
 
         public Transacao? ExecutarTransacao(TransacaoDados _params)
         {
-            string query = $"call SP_TRANSFERENCIA({_params.IdCliente}, {_params.IdClienteTransf}, {_params.Valor})";
+            var valorFormat = _params.Valor.ToString().Replace(",", ".");
+            string query = $"call SP_TRANSFERENCIA({_params.IdCliente}, {_params.IdClienteTransf}, {valorFormat})";
             SqlHelper sql = new(_connection);
 
             var rm_transacoes = sql.Query(query);
@@ -102,15 +105,16 @@ namespace api.Factories
 
             List<TransacaoRegistro> registros =
             (from transacao in transacoes
-             select new TransacaoRegistro()
-             {
-                 Id = transacao.Id,
-                 IdCliente = idCliente,
-                 DtTransacao = transacao.DtTransacao,
-                 Tipo = transacao.Tipo,
-                 Valor = transacao.Valor,
-                 ClienteTransf = _clienteRepository.BuscaPorId(transacao.IdCliente)?.Nome
-             }).ToList();
+                select new TransacaoRegistro()
+                {
+                    Id = transacao.Id,
+                    IdCliente = transacao.IdCliente,
+                    DtTransacao = transacao.DtTransacao,
+                    Tipo = transacao.Tipo,
+                    Valor = transacao.Valor,
+                    ClienteTransf = _clienteRepository.BuscaPorId(transacao.IdCliente)?.Nome
+                }
+            ).ToList();
 
             return registros; 
         }

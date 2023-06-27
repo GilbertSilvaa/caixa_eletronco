@@ -16,13 +16,14 @@ namespace api.Models
             List<Cliente> clientes = 
             (from row in tb.AsEnumerable()
             select new Cliente()
-            {
-                Id = int.Parse(row["id"].ToString()!),
-                Nome = row["nome"].ToString()!,
-                Conta = long.Parse(row["conta"].ToString()!),
-                Senha = row["senha"].ToString()!,
-                Saldo = double.Parse(row["saldo"].ToString()!)
-            }).ToList();
+                {
+                    Id = int.Parse(row["id"].ToString()!),
+                    Nome = row["nome"].ToString()!,
+                    Conta = long.Parse(row["conta"].ToString()!),
+                    Senha = row["senha"].ToString()!,
+                    Saldo = double.Parse(row["saldo"].ToString()!)
+                }
+            ).ToList();
 
             return clientes;
         }

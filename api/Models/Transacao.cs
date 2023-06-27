@@ -17,13 +17,14 @@ namespace api.Models
             List<Transacao> transacoes =
             (from row in tb.AsEnumerable()
              select new Transacao()
-             {
-                 Id = int.Parse(row["id"].ToString()!),
-                 Valor = double.Parse(row["valor"].ToString()!),
-                 DtTransacao = DateTime.Parse(row["dt_transacao"].ToString()!),
-                 IdCliente = int.Parse(row["cliente_id"].ToString()!),
-                 Tipo = (TipoTransacao)int.Parse(row["tipo"].ToString()!)
-             }).ToList();
+                {
+                    Id = int.Parse(row["id"].ToString()!),
+                    Valor = double.Parse(row["valor"].ToString()!),
+                    DtTransacao = DateTime.Parse(row["dt_transacao"].ToString()!),
+                    IdCliente = int.Parse(row["cliente_id"].ToString()!),
+                    Tipo = (TipoTransacao)int.Parse(row["tipo"].ToString()!)
+                }
+            ).ToList();
 
             return transacoes;
         }

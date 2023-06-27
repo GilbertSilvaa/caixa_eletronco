@@ -97,13 +97,13 @@ create procedure SP_BUSCAR_TRANSFERENCIAS (in
 begin
 	select
 	ts.id as id, 
-	t.cliente_rec as cliente_id, 
+	t.cliente_env as cliente_id, 
 	ts.tipo, 
 	ts.valor, 
 	ts.dt_transacao 
 	from Transferencias t 
 	inner join Transacao ts on ts.id = t.transacao_id 
-	where cliente_env= cliente_id;
+	where cliente_env= cliente_id or cliente_rec = cliente_id;
 end//
 DELIMITER ;
 

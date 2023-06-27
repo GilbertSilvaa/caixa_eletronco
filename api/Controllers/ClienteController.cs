@@ -20,14 +20,14 @@ namespace api.Controllers
 
         [Route("cadastro")]
         [HttpPost]
-        public void Cadastrar([FromForm] Cliente cliente)
+        public void Cadastrar([FromBody] Cliente cliente)
         {
             _clienteDAO.Cadastrar(cliente);
         }
 
         [Route("login")]
         [HttpPost]
-        public ActionResult<Cliente> Login([FromForm] LoginDados _params)
+        public ActionResult<Cliente> Login([FromBody] LoginDados _params)
         {
             var cliente = _clienteDAO.Login(_params);
 

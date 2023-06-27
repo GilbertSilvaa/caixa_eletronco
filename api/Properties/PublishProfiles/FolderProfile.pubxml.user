@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\gilbe\Documentos\caixa-eletronico\api\bin\Release\net6.0\publish\</_PublishTargetUrl>
+    <History>True|2023-06-26T03:30:03.2598266Z;True|2023-06-26T00:17:05.9979150-03:00;True|2023-06-25T12:57:08.1838993-03:00;True|2023-06-25T12:47:09.7063470-03:00;True|2023-06-25T12:44:31.6633836-03:00;True|2023-06-25T11:36:46.5262244-03:00;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>

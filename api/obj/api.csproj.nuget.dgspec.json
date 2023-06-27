@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gilbe\\Área de Trabalho\\Meus_Projetos\\Faculdade\\caixa-eletronico\\api\\api.csproj": {}
+    "C:\\Users\\gilbe\\Documentos\\caixa-eletronico\\api\\api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gilbe\\Área de Trabalho\\Meus_Projetos\\Faculdade\\caixa-eletronico\\api\\api.csproj": {
+    "C:\\Users\\gilbe\\Documentos\\caixa-eletronico\\api\\api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gilbe\\Área de Trabalho\\Meus_Projetos\\Faculdade\\caixa-eletronico\\api\\api.csproj",
+        "projectUniqueName": "C:\\Users\\gilbe\\Documentos\\caixa-eletronico\\api\\api.csproj",
         "projectName": "api",
-        "projectPath": "C:\\Users\\gilbe\\Área de Trabalho\\Meus_Projetos\\Faculdade\\caixa-eletronico\\api\\api.csproj",
+        "projectPath": "C:\\Users\\gilbe\\Documentos\\caixa-eletronico\\api\\api.csproj",
         "packagesPath": "C:\\Users\\gilbe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gilbe\\Área de Trabalho\\Meus_Projetos\\Faculdade\\caixa-eletronico\\api\\obj\\",
+        "outputPath": "C:\\Users\\gilbe\\Documentos\\caixa-eletronico\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\gilbe\\AppData\\Roaming\\NuGet\\NuGet.Config",

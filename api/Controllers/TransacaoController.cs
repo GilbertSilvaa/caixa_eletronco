@@ -21,16 +21,10 @@ namespace api.Controllers
 
         [Route("deposito")]
         [HttpPost]
-        public ActionResult<Transacao> Depositar([FromForm]int idCliente, [FromForm]double valor)
+        public ActionResult<Transacao> Depositar([FromBody] TransacaoDados transacao)
         {
-            TransacaoDados dados = new() 
-            {
-                IdCliente = idCliente,
-                Valor = valor,
-            };
-
             var _transacaoDAO = new TransacaoDAO(TipoTransacao.deposito);
-            var transacaoResponse = _transacaoDAO.ExecutarTransacao(dados);
+            var transacaoResponse = _transacaoDAO.ExecutarTransacao(transacao);
 
             if (transacaoResponse == null) return BadRequest(); 
 
@@ -39,17 +33,11 @@ namespace api.Controllers
 
         [Route("saque")]
         [HttpPost]
-        public ActionResult<Transacao> Sacar([FromForm] int idCliente, [FromForm] double valor)
+        public ActionResult<Transacao> Sacar([FromBody] TransacaoDados transacao)
         {
-            TransacaoDados dados = new()
-            {
-                IdCliente = idCliente,
-                Valor = valor,
-            };
-
             var _transacaoDAO = new TransacaoDAO(TipoTransacao.saque);
             var _transacaoDecorator = new VerificarSaldoDecorator(_transacaoDAO, _clienteDAO);
-            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
+            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(transacao);
 
             if (transacaoResponse == null) return BadRequest();
 
@@ -58,18 +46,11 @@ namespace api.Controllers
 
         [Route("transferencia")]
         [HttpPost]
-        public ActionResult<Transacao> Transferir([FromForm] int idCliente, [FromForm] int idClienteTransf, [FromForm] double valor)
+        public ActionResult<Transacao> Transferir([FromBody] TransacaoDados transacao)
         {
-            TransacaoDados dados = new()
-            {
-                IdCliente = idCliente,
-                IdClienteTransf = idClienteTransf,
-                Valor = valor,
-            };
-
             var _transacaoDAO = new TransacaoDAO(TipoTransacao.tranferencia);
             var _transacaoDecorator = new VerificarSaldoDecorator(_transacaoDAO, _clienteDAO);
-            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(dados);
+            var transacaoResponse = _transacaoDecorator.ExecutarTransacao(transacao);
 
             if (transacaoResponse == null) return BadRequest();
 
@@ -101,7 +82,9 @@ namespace api.Controllers
 
             if (registros == null) return BadRequest();
 
-            return Ok(registros);
+            var registrosOrdem = registros.OrderBy(x => x.DtTransacao).Reverse();
+
+            return Ok(registrosOrdem);
         }
     }
 }
