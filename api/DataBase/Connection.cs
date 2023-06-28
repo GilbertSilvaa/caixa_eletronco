@@ -8,7 +8,7 @@ namespace api.DataBase
         private static MySqlConnection? _conn;
         private static Connection? _instance;
 
-        public Connection()
+        private Connection()
         {
             _conn = new MySqlConnection(_connString);
         }
