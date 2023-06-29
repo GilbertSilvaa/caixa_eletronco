@@ -8,15 +8,13 @@ import { TransacaoFactory } from '../factories/transacao-factory';
 import { TransacaoProps } from '../models/transacao-model';
 
 export class TransacaoDAO implements ITransacaoRepository {
-  private readonly _conexao: Connection;
-  private readonly _clienteRepository: IClinteRepository;
   private readonly _transacaoFactory: ITransacaoRepository;
 
   constructor(tipo: TipoTransacao) {
-    this._conexao = Conexao.getInstance().conexao();
-    this._clienteRepository = new ClienteDAO();
+    const conexao = Conexao.getInstance().conexao();
+    const clienteRepository = new ClienteDAO();
     this._transacaoFactory = TransacaoFactory.criarTransacao(
-      tipo, this._conexao, this._clienteRepository
+      tipo, conexao, clienteRepository
     );
   }
 

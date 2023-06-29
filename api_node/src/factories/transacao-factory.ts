@@ -24,15 +24,18 @@ export class TransacaoFactory {
 }
 
 class TransacaoPadrao implements ITransacaoRepository {
+  private readonly _dbService: DBService;
+
   constructor(
-    private readonly conexao: Connection, 
+    conexao: Connection, 
     private readonly tipoTransacao: TipoTransacao
-  ){}
+  ){
+    this._dbService = new DBService(conexao);
+  }
 
   public async executarTransacao({ idCliente, valor }: ITransacaoProps) {
     const consulta = `call SP_TRANSACAO_COMUM(${idCliente},${valor},${this.tipoTransacao})`;
-    const dbService = new DBService(this.conexao);
-    const resposta = (await dbService.execute(consulta) as any[])[0] as TransacaoProps[];
+    const resposta = (await this._dbService.execute(consulta) as any[])[0] as TransacaoProps[];
 
     if(!resposta.length) return null;
 
@@ -41,8 +44,7 @@ class TransacaoPadrao implements ITransacaoRepository {
 
   public async buscarTransacoes(idCliente: number) {
     const consulta = `select * from Transacao where cliente_id=${idCliente} and tipo=${this.tipoTransacao}`;
-    const dbService = new DBService(this.conexao);
-    const resposta = await dbService.execute(consulta) as TransacaoProps[];
+    const resposta = await this._dbService.execute(consulta) as TransacaoProps[];
 
     if(!resposta.length) return null;
 
@@ -51,15 +53,18 @@ class TransacaoPadrao implements ITransacaoRepository {
 }
 
 class Transferencia implements ITransacaoRepository {
+  private readonly _dbService: DBService;
+
   constructor(
-    private readonly conexao: Connection, 
+    conexao: Connection, 
     private readonly clienteRepository: IClinteRepository
-  ){}
+  ){
+    this._dbService = new DBService(conexao);
+  }
 
   public async executarTransacao({ idCliente, idClienteTransf, valor }: ITransacaoProps) {
     const consulta = `call SP_TRANSFERENCIA(${idCliente},${idClienteTransf},${valor})`;
-    const dbService = new DBService(this.conexao);
-    const resposta = (await dbService.execute(consulta) as any[])[0] as TransacaoProps[];
+    const resposta = (await this._dbService.execute(consulta) as any[])[0] as TransacaoProps[];
     
     if(!resposta.length) return null;
 
@@ -68,8 +73,7 @@ class Transferencia implements ITransacaoRepository {
 
   public async buscarTransacoes(idCliente: number) {
     const consulta = `call SP_BUSCAR_TRANSFERENCIAS(${idCliente})`;
-    const dbService = new DBService(this.conexao);
-    const resposta = (await dbService.execute(consulta) as any[])[0] as TransacaoProps[];
+    const resposta = (await this._dbService.execute(consulta) as any[])[0] as TransacaoProps[];
     
     if(!resposta.length) return null;
 

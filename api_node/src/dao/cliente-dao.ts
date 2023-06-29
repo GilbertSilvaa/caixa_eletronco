@@ -6,15 +6,16 @@ import { IClinteRepository, LoginProps } from '../repositories/cliente-repositor
 
 export class ClienteDAO implements IClinteRepository {
   private readonly _conexao: Connection;
+  private readonly _dbService: DBService;
 
   constructor() {
     this._conexao = Conexao.getInstance().conexao();
+    this._dbService = new DBService(this._conexao);
   }
 
   async login({ conta, senha }: LoginProps) {
     const consulta = `select * from Cliente where conta=${conta} and senha=${senha}`;
-    const dbService = new DBService(this._conexao);
-    const resposta = await dbService.execute(consulta) as ClienteProps[];
+    const resposta = await this._dbService.execute(consulta) as ClienteProps[];
     
     if(!resposta.length) return null;
     
@@ -23,8 +24,7 @@ export class ClienteDAO implements IClinteRepository {
 
   async buscarPorId(idCliente: number) {
     const consulta = `select * from Cliente where id=${idCliente}`;
-    const dbService = new DBService(this._conexao);
-    const resposta = await dbService.execute(consulta) as ClienteProps[];
+    const resposta = await this._dbService.execute(consulta) as ClienteProps[];
     
     if(!resposta.length) return null;
     
@@ -33,8 +33,7 @@ export class ClienteDAO implements IClinteRepository {
 
   async buscarPorConta(conta: number) {
     const consulta = `select * from Cliente where conta=${conta}`;
-    const dbService = new DBService(this._conexao);
-    const resposta = await dbService.execute(consulta) as ClienteProps[];
+    const resposta = await this._dbService.execute(consulta) as ClienteProps[];
     
     if(!resposta.length) return null;
     
