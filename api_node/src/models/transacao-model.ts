@@ -6,6 +6,7 @@ export interface TransacaoProps {
   tipo: TipoTransacao
   valor: number;
   dtTransacao?: Date
+  clienteTransf?: string;
 }
 
 export class Transacao {
@@ -14,6 +15,7 @@ export class Transacao {
   tipo: TipoTransacao
   valor: number;
   dtTransacao?: Date;
+  clienteTransf?: string;
 
   constructor(props: TransacaoProps) {
     this.id = props.id;
@@ -21,9 +23,16 @@ export class Transacao {
     this.tipo = props.tipo;
     this.valor = props.valor;
     this.dtTransacao = props.dtTransacao;
+    this.clienteTransf = props.clienteTransf;
   }
 
-  public static convertMap(maps: TransacaoProps[]) {
-    return maps.map(m => new Transacao(m));
+  public static convertMap(objs: any[]) {
+    return objs.map(obj=> new Transacao({
+      id: obj['id'],
+      idCliente: obj['cliente_id'],
+      tipo: obj['tipo'],
+      valor: obj['valor'],
+      dtTransacao: obj['dt_transacao']
+    }));
   }
 }

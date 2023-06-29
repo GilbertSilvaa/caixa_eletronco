@@ -7,7 +7,7 @@ export class DBService {
     this._conexao = conexao;
   }
 
-  async execute(consulta: string) {
+  public async execute(consulta: string) {
     try {
       return new Promise((resolve, reject) => {
         this._conexao.query(consulta, (error, results, fields) => {

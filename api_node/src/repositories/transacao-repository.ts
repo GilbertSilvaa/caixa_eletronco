@@ -6,6 +6,6 @@ export interface ITransacaoProps extends TransacaoProps {
 }
 
 export interface ITransacaoRepository {
-  executarTransacao(dados: ITransacaoProps): Transacao | null;
-  buscarTransacoes(idCliente: number): ITransacaoProps[] | null
+  executarTransacao(dados: ITransacaoProps): Promise<Transacao|null>;
+  buscarTransacoes(idCliente: number): Promise<ITransacaoProps[]|null>;
 }

@@ -18,7 +18,12 @@ export class Cliente {
     this.saldo = props.saldo;
   }
 
-  public static convertMap(maps: ClienteProps[]) {
-    return maps.map(m => new Cliente(m));
+  public static convertMap(objs: any[]) {
+    return objs.map(obj => new Cliente({
+      id: obj['id'],
+      nome: obj['nome'],
+      conta: obj['conta'],
+      saldo: obj['saldo'],
+    }));
   }
 }

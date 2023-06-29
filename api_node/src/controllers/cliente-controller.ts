@@ -1,13 +1,18 @@
 import { Request, Response } from 'express';
-import { IClinteRepository, LoginProps } from '../repositories/cliente-repository';
+import { IClinteRepository } from '../repositories/cliente-repository';
+import { ClienteDAO } from '../dao/cliente-dao';
 
 export class ClienteController {
-  constructor(private clienteRepository: IClinteRepository){}
+  private readonly _clienteRepository: IClinteRepository;
 
-  async login(req: Request, res: Response) {
+  constructor(){
+    this._clienteRepository = new ClienteDAO();
+  }
+
+  public async login(req: Request, res: Response) {
     try {
       const data = req.body;
-      const resposta = await this.clienteRepository.login(data);
+      const resposta = await this._clienteRepository.login(data);
       res.status(200).json(resposta);
     }
     catch(error) {
@@ -15,21 +20,21 @@ export class ClienteController {
     }
   }
 
-  async buscarPorId(req: Request, res: Response) {
+  public async buscarPorId(req: Request, res: Response) {
     try {
       const idCliente = req.query.idCliente as string;
-      const resposta = await this.clienteRepository.buscarPorId(parseInt(idCliente));
+      const resposta = await this._clienteRepository.buscarPorId(parseInt(idCliente));
       res.status(200).json(resposta);
     }
     catch(error) {
       res.status(400).json({ error });
     }
   }
-  
-  async buscarPorConta(req: Request, res: Response) {
+
+  public async buscarPorConta(req: Request, res: Response) {
     try {
       const conta = req.query.conta as string;
-      const resposta = await this.clienteRepository.buscarPorConta(parseInt(conta));
+      const resposta = await this._clienteRepository.buscarPorConta(parseInt(conta));
       res.status(200).json(resposta);
     }
     catch(error) {

@@ -1,11 +1,9 @@
 import { Router } from 'express';
-import { ClienteDAO } from '../dao/cliente-dao';
 import { ClienteController } from '../controllers/cliente-controller';
 
 export const clienteRoutes = Router();
 
-const clienteRepository = new ClienteDAO();
-const clienteController = new ClienteController(clienteRepository);
+const clienteController = new ClienteController();
 
 clienteRoutes.post('/login', (req, res) => 
   clienteController.login(req, res)
