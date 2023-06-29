@@ -13,7 +13,11 @@ export class ClienteController {
     try {
       const data = req.body;
       const resposta = await this._clienteRepository.login(data);
-      res.status(200).json(resposta);
+
+      if(resposta)
+        return res.status(200).json(resposta);
+
+      return res.status(400).json({ mensagem: 'conta ou senha inválida' })
     }
     catch(error) {
       res.status(400).json({ error });
@@ -35,7 +39,11 @@ export class ClienteController {
     try {
       const conta = req.query.conta as string;
       const resposta = await this._clienteRepository.buscarPorConta(parseInt(conta));
-      res.status(200).json(resposta);
+      
+      if(resposta)
+        return res.status(200).json(resposta);
+
+      return res.status(400).json({ mensagem: 'conta inválida' })
     }
     catch(error) {
       res.status(400).json({ error });
