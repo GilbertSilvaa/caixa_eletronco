@@ -69,7 +69,7 @@ class _TransferState extends State<Transfer> {
       };
 
       var responseTrasac =
-          await _dio.post('/Transacao/transferencia', data: params);
+          await _dio.post('/transacao/transferencia', data: params);
 
       if (responseTrasac.statusCode == 200) {
         if (context.mounted) {
@@ -82,7 +82,8 @@ class _TransferState extends State<Transfer> {
         }
       }
     } on DioException catch (error) {
-      setState(() => _accountError = error.response.toString());
+      Navigator.of(context).pop();
+      setState(() => _valueError = error.response.toString());
     } finally {
       setState(() => _formLoading = false);
     }

@@ -46,7 +46,7 @@ class _TransactionsState extends State<Transactions> {
     try {
       var dio = await DioClient.getInstance();
       var res =
-          await dio.get('/Transacao/buscar?idCliente=${widget.cliente.id}');
+          await dio.get('/transacao/buscar?idCliente=${widget.cliente.id}');
 
       if (res.statusCode == 200) {
         return res.data

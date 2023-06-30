@@ -17,7 +17,7 @@ export class ClienteController {
       if(resposta)
         return res.status(200).json(resposta);
 
-      return res.status(400).json({ mensagem: 'conta ou senha inválida' })
+      return res.status(400).send('conta ou senha inválida');
     }
     catch(error) {
       res.status(400).json({ error });
@@ -43,7 +43,7 @@ export class ClienteController {
       if(resposta)
         return res.status(200).json(resposta);
 
-      return res.status(400).json({ mensagem: 'conta inválida' })
+      return res.status(400).send('conta inválida');
     }
     catch(error) {
       res.status(400).json({ error });

@@ -41,7 +41,7 @@ class Cliente {
     return Cliente(
       id: map['id'] as int,
       nome: map['nome'] as String,
-      conta: map['conta'] as int,
+      conta: int.parse(map['conta']),
       saldo: map['saldo'] as num,
     );
   }

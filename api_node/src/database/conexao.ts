@@ -8,7 +8,7 @@ export class Conexao {
     this._conexao = mysql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: 'Ringkyu777#',
+      password: 'ifsp',
       database: 'caixa'
     });
   }

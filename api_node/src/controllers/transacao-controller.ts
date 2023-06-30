@@ -38,7 +38,7 @@ export class TransacaoController {
       if(resposta)
         return res.status(200).json(resposta);
 
-      return res.status(400).json({ mensagem: 'saldo insuficiente' })
+      return res.status(400).send('saldo insuficiente');
     }
     catch(error) {
       res.status(400).json({ error });
@@ -62,7 +62,7 @@ export class TransacaoController {
       if(resposta)
         return res.status(200).json(resposta);
 
-      return res.status(400).json({ mensagem: 'saldo insuficiente' })
+      return res.status(400).send('saldo insuficiente');
     }
     catch(error) {
       res.status(400).json({ error });

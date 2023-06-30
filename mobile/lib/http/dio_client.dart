@@ -6,7 +6,7 @@ class DioClient {
   static Future<Dio> getInstance() async {
     _dio ??= Dio(
       BaseOptions(
-        baseUrl: 'http://192.168.0.114:83/api',
+        baseUrl: 'http://10.107.71.15:5000',
       ),
     );
 

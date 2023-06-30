@@ -39,10 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       setState(() => _formLoading = true);
       var params = {
-        'Conta': int.parse(_accountController.text),
-        'Senha': _passwordController.text
+        'conta': int.parse(_accountController.text),
+        'senha': _passwordController.text
       };
-      var response = await _dio.post('/Cliente/login', data: params);
+      var response = await _dio.post('/cliente/login', data: params);
 
       if (response.statusCode == 200) {
         var cliente = Cliente.fromMap(response.data);

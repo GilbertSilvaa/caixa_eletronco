@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       var dio = await DioClient.getInstance();
       var res = await dio
-          .get('/Cliente/buscarPorConta?conta=${widget.cliente.conta}');
+          .get('/cliente/buscarPorConta?conta=${widget.cliente.conta}');
 
       if (res.statusCode == 200) {
         return Cliente.fromMap(res.data);

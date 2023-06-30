@@ -39,7 +39,7 @@ class _WithdrawalState extends State<Withdrawal> {
         'idCliente': widget.cliente.id,
         'valor': num.parse(_valueController.text)
       };
-      var response = await _dio.post('/Transacao/saque', data: params);
+      var response = await _dio.post('/transacao/saque', data: params);
 
       if (response.statusCode == 200) {
         if (context.mounted) {

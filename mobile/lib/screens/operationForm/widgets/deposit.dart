@@ -42,7 +42,7 @@ class _DepositState extends State<Deposit> {
         'idCliente': widget.cliente.id,
         'valor': num.parse(_valueController.text)
       };
-      var response = await _dio.post('/Transacao/deposito', data: params);
+      var response = await _dio.post('/transacao/deposito', data: params);
 
       if (response.statusCode == 200) {
         if (context.mounted) {
