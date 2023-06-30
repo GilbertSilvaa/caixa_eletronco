@@ -108,6 +108,10 @@ end//
 DELIMITER ;
 
 
+insert into Cliente (nome, conta, senha, saldo) values ('Usuario 001', 1000200030004000, 'senha', 2550.75);
+insert into Cliente (nome, conta, senha, saldo) values ('Usuario 002', 1234, 'senha', 550.85);
+insert into Cliente (nome, conta, senha, saldo) values ('Usuario 003', 4321, 'senha', 3888.99);
+
 
 
 
